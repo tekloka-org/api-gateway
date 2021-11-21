@@ -35,7 +35,7 @@ public class GlobalAuthFilter implements GlobalFilter {
 
 		ServerHttpRequest request = exchange.getRequest();
 
-		final List<String> apiEndpoints = List.of("/public/");
+		final List<String> apiEndpoints = List.of("/public/", "/file/");
 
 		Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
 				.noneMatch(uri -> r.getURI().getPath().contains(uri));
