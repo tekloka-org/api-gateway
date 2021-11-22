@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+	<appender name="CONSOLE_APPENDER"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%green(%d{dd-MMM-yyyy HH:mm:ss.SSS}) %highlight(%level) %magenta([%thread]) - %cyan(%logger{36}.%M) - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="SERVICE_LOG_APPENDER"
+		class="ch.qos.logback.core.FileAppender">
+		<file>${LOG_PATH}/api-gateway.log</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%green(%d{dd-MMM-yyyy HH:mm:ss.SSS}) %highlight(%level) %magenta([%thread]) - %cyan(%logger{36}.%M) - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="TEKLOKA_APP_APPENDER"
+		class="ch.qos.logback.core.FileAppender">
+		<file>${LOG_PATH}/tekloka-services.log</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%green(%d{dd-MMM-yyyy HH:mm:ss.SSS}) %highlight(%level) %magenta([%thread]) - %cyan(%logger{36}.%M) - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<springProfile name="dev">
+		<root level="INFO">
+			<appender-ref ref="CONSOLE_APPENDER" />
+			<appender-ref ref="SERVICE_LOG_APPENDER" />
+			<appender-ref ref="TEKLOKA_APP_APPENDER" />
+		</root>
+	</springProfile>
+
+	<springProfile name="prod">
+		<root level="INFO">
+			<appender-ref ref="SERVICE_LOG_APPENDER" />
+			<appender-ref ref="TEKLOKA_APP_APPENDER" />
+		</root>
+	</springProfile>
+	
+</configuration>
