@@ -3,5 +3,5 @@ spring:
     name: api-gateway
   cloud:
     config:
-      uri: http://172.31.27.139:8888
+      uri: http://localhost:8888
       
