@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
@@ -24,6 +26,7 @@ public class GlobalAuthFilter implements GlobalFilter {
 
 	private final JWTHelper jwtHelper;
 	private final ResponseUtil responseUtil;
+	private final Logger logger = LoggerFactory.getLogger(GlobalAuthFilter.class);
 
 	public GlobalAuthFilter(JWTHelper jwtHelper, ResponseUtil responseUtil) {
 		this.jwtHelper = jwtHelper;
@@ -51,7 +54,11 @@ public class GlobalAuthFilter implements GlobalFilter {
 					}
 					return chain.filter(exchange.mutate().request(exchange.getRequest().mutate()
 							.header(DataConstants.LOGGED_IN_USER_ID, loggedInUserId).build()).build());
+				}else {
+					logger.error("jwt claims is null");
 				}
+			}else {
+				logger.error("X_AUTH_TOKEN is null");
 			}
 			Map<String, Object> dataMap = new HashMap<>();
 			String response = responseUtil.generatePlainResponse(dataMap,
