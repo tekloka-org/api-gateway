@@ -58,7 +58,7 @@ public class GlobalAuthFilter implements GlobalFilter {
 					logger.error("jwt claims is null");
 				}
 			}else {
-				logger.error("X-AUTH-TOKEN is null");
+				logger.error("xAuthToken is null");
 			}
 			Map<String, Object> dataMap = new HashMap<>();
 			String response = responseUtil.generatePlainResponse(dataMap,
